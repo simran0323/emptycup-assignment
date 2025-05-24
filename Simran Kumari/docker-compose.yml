@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/listings.db:/app/listings.db
+    networks:
+      - emptycup-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+    networks:
+      - emptycup-network
+
+networks:
+  emptycup-network:
+    driver: bridge
